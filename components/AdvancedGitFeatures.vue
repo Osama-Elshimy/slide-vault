@@ -1,16 +1,18 @@
 <template>
   <div class="h-full grid grid-cols-2 justify-center gap-4 relative">
-    <img
-      src="../public/understand-git.png"
-      class="w-[250px] absolute -top-5 end-0"
-    />
+    <div
+      v-click.hide
+      class="absolute -top-5 end-0 start-0 mx-auto flex items-center justify-center flex-col"
+    >
+      <img src="../public/understand-git.png" class="w-[500px]" />
+    </div>
+
+    <div v-after class="text-start">
+      <h1>Advanced Git Features</h1>
+      <p class="opacity-75">Powerful tools most developers don't use</p>
+    </div>
 
     <v-clicks>
-      <div>
-        <h1>Advanced Git Features</h1>
-        <p class="opacity-75">Powerful tools most developers don't use</p>
-      </div>
-
       <div class="feature col-span-2">
         <strong>git worktrees</strong> — Work on multiple branches
         simultaneously
