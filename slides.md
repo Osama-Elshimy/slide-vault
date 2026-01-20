@@ -1,26 +1,20 @@
 ---
 theme: seriph
-background: https://source.unsplash.com/collections/94734566/slidev
+# background: https://source.unsplash.com/collections/94734566/slidev
 title: Git Worktrees
 info: |
   ## Git Worktrees
   Work on multiple branches simultaneously
-class: text-center
 drawings:
   persist: false
-transition: slide-left
 mdc: true
 ---
 
-# Git Worktrees
+<Title />
 
-Work on multiple branches simultaneously
+---
 
-<div class="abs-br m-6 text-xl">
-  <a href="https://git-scm.com/docs/git-worktree" target="_blank" class="slidev-icon-btn">
-    carbon:book
-  </a>
-</div>
+<AdvancedGitFeatures />
 
 ---
 
@@ -115,18 +109,23 @@ Forget to stash? Uncommitted changes block branch switch
 <v-clicks>
 
 ## 🚀 Simultaneous Branches
+
 Work on multiple branches at the same time without stashing
 
 ## 💾 Efficient Storage
+
 Share `.git` directory - minimal disk overhead
 
 ## ⚡ Zero Context Switching
+
 Each worktree is always ready with your branch
 
 ## 🧪 Parallel Work
+
 Code in one worktree while tests run in another
 
 ## 🔥 Hot Fixes
+
 Fix urgent bugs without touching your current work
 
 </v-clicks>
@@ -221,15 +220,18 @@ git worktree prune
 <v-clicks>
 
 **List output shows:**
+
 - Worktree path
 - Branch name/commit
 - Status (detached, prunable, etc.)
 
 **Remove vs Prune:**
+
 - `remove` - Deletes worktree cleanly
 - `prune` - Cleans up stale refs after manual deletion
 
 **Lock/Unlock:**
+
 ```bash
 git worktree lock ../my-project
 git worktree unlock ../my-project
@@ -261,10 +263,10 @@ git worktree add ../wt2 main
 
 Don't `rm -rf` worktree directories manually
 <span v-click="2">
-  → Use `git worktree remove` instead
+→ Use `git worktree remove` instead
 </span>
 <span v-click="3">
-  → Or run `git worktree prune` after deletion
+→ Or run `git worktree prune` after deletion
 </span>
 
 </div>
@@ -274,6 +276,7 @@ Don't `rm -rf` worktree directories manually
 ### ⚠️ Independent Operations
 
 Each worktree operates independently:
+
 - Rebase/merge conflicts resolved per worktree
 - Hooks run in each worktree separately
 - Stash is local to each worktree
@@ -282,7 +285,7 @@ Each worktree operates independently:
 
 Commits are shared across all worktrees
 <span v-click="5">
-  → Pushing from one affects all
+→ Pushing from one affects all
 </span>
 
 </div>
@@ -318,6 +321,7 @@ git worktree add ../review-pr-123 origin/pr-123
 ### 🏷️ Naming Convention
 
 Use descriptive paths:
+
 ```bash
 ../project-feature-auth
 ../project-hotfix-login
@@ -371,6 +375,7 @@ Git worktrees are ideal for AI-assisted development:
 ### 🤖 Isolated AI Sessions
 
 Each AI conversation gets its own worktree
+
 - No cross-contamination of changes
 - Easy to compare AI suggestions side-by-side
 - Rollback is simple (just remove worktree)
@@ -378,6 +383,7 @@ Each AI conversation gets its own worktree
 ### 🔀 Parallel AI Work
 
 Multiple AI agents working simultaneously:
+
 ```bash
 ../project-ai-feature-a    # Claude on feature A
 ../project-ai-refactor     # Claude on refactor
@@ -402,6 +408,7 @@ cd ../ai-refactor-sandbox
 ### 📊 A/B Testing
 
 Compare approaches:
+
 ```bash
 ../project-approach-v1
 ../project-approach-v2
@@ -506,6 +513,7 @@ class: text-center
 <div class="text-sm opacity-75 mt-8">
 
 Try it out:
+
 ```bash
 git worktree add ../my-first-worktree -b experiment/test
 ```
