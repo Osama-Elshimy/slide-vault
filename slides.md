@@ -1,122 +1,135 @@
 ---
-# You can also start simply with 'default'
 theme: seriph
-# random image from a curated Unsplash collection by Anthony
-# like them? see https://unsplash.com/collections/94734566/slidev
-background: https://cover.sli.dev
-# some information about your slides (markdown enabled)
-title: Welcome to Slidev
+background: https://source.unsplash.com/collections/94734566/slidev
+title: Git Worktrees
 info: |
-  ## Slidev Starter Template
-  Presentation slides for developers.
-
-  Learn more at [Sli.dev](https://sli.dev)
-# apply unocss classes to the current slide
+  ## Git Worktrees
+  Work on multiple branches simultaneously
 class: text-center
-# https://sli.dev/features/drawing
 drawings:
   persist: false
-# slide transition: https://sli.dev/guide/animations.html#slide-transitions
 transition: slide-left
-# enable MDC Syntax: https://sli.dev/features/mdc
 mdc: true
-# open graph
-# seoMeta:
-#  ogImage: https://cover.sli.dev
 ---
 
-# Welcome to Slidev
+# Git Worktrees
 
-Presentation slides for developers
-
-<div @click="$slidev.nav.next" class="mt-12 py-1" hover:bg="white op-10">
-  Press Space for next page <carbon:arrow-right />
-</div>
+Work on multiple branches simultaneously
 
 <div class="abs-br m-6 text-xl">
-  <button @click="$slidev.nav.openInEditor()" title="Open in Editor" class="slidev-icon-btn">
-    <carbon:edit />
-  </button>
-  <a href="https://github.com/slidevjs/slidev" target="_blank" class="slidev-icon-btn">
-    <carbon:logo-github />
+  <a href="https://git-scm.com/docs/git-worktree" target="_blank" class="slidev-icon-btn">
+    carbon:book
   </a>
 </div>
 
-<!--
-The last comment block of each slide will be treated as slide notes. It will be visible and editable in Presenter Mode along with the slide. [Read more in the docs](https://sli.dev/guide/syntax.html#notes)
--->
+---
+
+# What Are Git Worktrees?
+
+Git worktrees allow you to have **multiple working directories** linked to a **single repository**.
+
+<v-clicks>
+
+- Each worktree has its own working copy
+- All worktrees share the same `.git` directory
+- No cloning required
+- Work on different branches simultaneously
+
+</v-clicks>
+
+```mermaid {scale: 0.9}
+graph TD
+    Git[.git directory] --> WT1[worktree-main<br/>main branch]
+    Git --> WT2[worktree-feature<br/>feature/login]
+    Git --> WT3[worktree-fix<br/>hotfix/critical]
+    Git --> WT4[worktree-exp<br/>experiment/new-ui]
+
+    style Git fill:#2B90B6,color:#fff
+    style WT1 fill:#4EC5D4
+    style WT2 fill:#4EC5D4
+    style WT3 fill:#4EC5D4
+    style WT4 fill:#4EC5D4
+```
 
 ---
 
-## transition: fade-out
+# The Problem
 
-# What is Slidev?
+Traditional Git workflow has pain points:
 
-Slidev is a slides maker and presenter designed for developers, consist of the following features
+<div grid="~ cols-2 gap-4" m="t-4">
 
-- 📝 **Text-based** - focus on the content with Markdown, and then style them later
-- 🎨 **Themable** - themes can be shared and re-used as npm packages
-- 🧑‍💻 **Developer Friendly** - code highlighting, live coding with autocompletion
-- 🤹 **Interactive** - embed Vue components to enhance your expressions
-- 🎥 **Recording** - built-in recording and camera view
-- 📤 **Portable** - export to PDF, PPTX, PNGs, or even a hostable SPA
-- 🛠 **Hackable** - virtually anything that's possible on a webpage is possible in Slidev
-  <br>
-  <br>
+<div>
 
-Read more about [Why Slidev?](https://sli.dev/guide/why)
+### 😫 Context Switching
 
-<!--
-You can have `style` tag in markdown to override the style for the current page.
-Learn more: https://sli.dev/features/slide-scope-style
--->
+```bash
+# Need to test PR but mid-work on feature
+git stash
+git checkout pr-branch
+# test...
+git checkout feature-branch
+git stash pop
+```
 
-<style>
-h1 {
-  background-color: #2B90B6;
-  background-image: linear-gradient(45deg, #4EC5D4 10%, #146b8c 20%);
-  background-size: 100%;
-  -webkit-background-clip: text;
-  -moz-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  -moz-text-fill-color: transparent;
-}
-</style>
+</div>
 
-<!--
-Here is another comment.
--->
+<div>
+
+### 💾 Disk Waste
+
+```bash
+# Need separate env for testing
+git clone ../my-project-test
+# Now 2x disk usage!
+```
+
+</div>
+
+</div>
+
+<div grid="~ cols-2 gap-4" m="t-4">
+
+<div>
+
+### ⏸️ Blocking Operations
+
+Can't run long tests while coding another feature
+
+</div>
+
+<div>
+
+### 🔄 Lost Progress
+
+Forget to stash? Uncommitted changes block branch switch
+
+</div>
+
+</div>
 
 ---
 
-transition: slide-up
-level: 2
+# What Worktrees Solve
 
----
+<v-clicks>
 
-# Navigation
+## 🚀 Simultaneous Branches
+Work on multiple branches at the same time without stashing
 
-Hover on the bottom-left corner to see the navigation's controls panel, [learn more](https://sli.dev/guide/ui#navigation-bar)
+## 💾 Efficient Storage
+Share `.git` directory - minimal disk overhead
 
-## Keyboard Shortcuts
+## ⚡ Zero Context Switching
+Each worktree is always ready with your branch
 
-|                                                    |                             |
-| -------------------------------------------------- | --------------------------- |
-| <kbd>right</kbd> / <kbd>space</kbd>                | next animation or slide     |
-| <kbd>left</kbd> / <kbd>shift</kbd><kbd>space</kbd> | previous animation or slide |
-| <kbd>up</kbd>                                      | previous slide              |
-| <kbd>down</kbd>                                    | next slide                  |
+## 🧪 Parallel Work
+Code in one worktree while tests run in another
 
-<!-- https://sli.dev/guide/animations.html#click-animation -->
+## 🔥 Hot Fixes
+Fix urgent bugs without touching your current work
 
-<img
-  v-click
-  class="absolute -bottom-9 -left-7 w-80 opacity-50"
-  src="https://sli.dev/assets/arrow-bottom-left.svg"
-  alt=""
-/>
-
-<p v-after class="absolute bottom-23 left-45 opacity-30 transform -rotate-10">Here!</p>
+</v-clicks>
 
 ---
 
@@ -125,526 +138,321 @@ layoutClass: gap-16
 
 ---
 
-# Table of contents
+# Basic Syntax: Create
 
-You can use the `Toc` component to generate a table of contents for your slides:
+Create new worktrees from your repository:
 
-```html
-<Toc minDepth="1" maxDepth="1" />
+```bash
+# Create worktree from existing branch
+git worktree add ../my-project-feature feature-branch
+
+# Create worktree with new branch
+git worktree add ../my-project-experiment -b experiment-branch
+
+# Create worktree at specific commit
+git worktree add ../my-project-old HEAD~5
+
+# Create with detached HEAD
+git worktree add ../my-project-temp origin/pr-123
 ```
-
-The title will be inferred from your slide content, or you can override it with `title` and `level` in your frontmatter.
 
 ::right::
 
-<Toc text-sm minDepth="1" maxDepth="2" />
+<div class="text-sm">
+
+### Parameters
+
+<v-clicks>
+
+- `<path>` - Where to create the worktree
+- `<branch>` - Existing branch to checkout
+- `-b <new-branch>` - Create new branch
+- `--detach` - Detached HEAD mode
+- `--checkout` - Default behavior
+- `--force` - Force checkout (reset)
+
+</v-clicks>
+
+</div>
+
+```bash {all|2|4|6}
+# Example directory structure
+my-project/              # original repo
+├── .git/
+├── my-project-feature/  # worktree 1
+├── my-project-fix/      # worktree 2
+└── my-project-test/     # worktree 3
+```
 
 ---
 
-layout: image-right
-image: https://cover.sli.dev
+layout: two-cols
+layoutClass: gap-16
 
 ---
 
-# Code
+# Basic Syntax: Manage
 
-Use code snippets and get the highlighting directly, and even types hover!
+Commands to manage your worktrees:
 
-```ts [filename-example.ts] {all|4|6|6-7|9|all} twoslash
-// TwoSlash enables TypeScript hover information
-// and errors in markdown code blocks
-// More at https://shiki.style/packages/twoslash
-import { computed, ref } from "vue";
+```bash
+# List all worktrees
+git worktree list
 
-const count = ref(0);
-const doubled = computed(() => count.value * 2);
+# Show worktree details
+git worktree list --porcelain
 
-doubled.value = 2;
+# Move a worktree
+git worktree move ../old-path ../new-path
+
+# Remove a worktree
+git worktree remove ../my-project-feature
+
+# Clean up stale worktrees
+git worktree prune
 ```
 
-<arrow v-click="[4, 5]" x1="350" y1="310" x2="195" y2="342" color="#953" width="2" arrowSize="1" />
+::right::
 
-<!-- This allow you to embed external code blocks -->
+<div class="text-sm">
 
-<<< @/snippets/external.ts#snippet
+### Common Operations
 
-<!-- Footer -->
+<v-clicks>
 
-[Learn more](https://sli.dev/features/line-highlighting)
+**List output shows:**
+- Worktree path
+- Branch name/commit
+- Status (detached, prunable, etc.)
 
-<!-- Inline style -->
-<style>
-.footnotes-sep {
-  @apply mt-5 opacity-10;
-}
-.footnotes {
-  @apply text-sm opacity-75;
-}
-.footnote-backref {
-  display: none;
-}
-</style>
+**Remove vs Prune:**
+- `remove` - Deletes worktree cleanly
+- `prune` - Cleans up stale refs after manual deletion
 
-<!--
-Notes can also sync with clicks
+**Lock/Unlock:**
+```bash
+git worktree lock ../my-project
+git worktree unlock ../my-project
+```
 
-[click] This will be highlighted after the first click
+</v-clicks>
 
-[click] Highlighted with `count = ref(0)`
-
-[click:3] Last click (skip two clicks)
--->
+</div>
 
 ---
 
-## level: 2
+# Common Caveats
 
-# Shiki Magic Move
+<div grid="~ cols-2 gap-6" m="t-4">
 
-Powered by [shiki-magic-move](https://shiki-magic-move.netlify.app/), Slidev supports animations across multiple code snippets.
-
-Add multiple code blocks and wrap them with <code>````md magic-move</code> (four backticks) to enable the magic move. For example:
-
-````md magic-move {lines: true}
-```ts {*|2|*}
-// step 1
-const author = reactive({
-  name: "John Doe",
-  books: [
-    "Vue 2 - Advanced Guide",
-    "Vue 3 - Basic Guide",
-    "Vue 4 - The Mystery",
-  ],
-});
-```
-
-```ts {*|1-2|3-4|3-4,8}
-// step 2
-export default {
-  data() {
-    return {
-      author: {
-        name: "John Doe",
-        books: [
-          "Vue 2 - Advanced Guide",
-          "Vue 3 - Basic Guide",
-          "Vue 4 - The Mystery",
-        ],
-      },
-    };
-  },
-};
-```
-
-```ts
-// step 3
-export default {
-  data: () => ({
-    author: {
-      name: "John Doe",
-      books: [
-        "Vue 2 - Advanced Guide",
-        "Vue 3 - Basic Guide",
-        "Vue 4 - The Mystery",
-      ],
-    },
-  }),
-};
-```
-
-Non-code blocks are ignored.
-
-```vue
-<!-- step 4 -->
-<script setup>
-const author = {
-  name: "John Doe",
-  books: [
-    "Vue 2 - Advanced Guide",
-    "Vue 3 - Basic Guide",
-    "Vue 4 - The Mystery",
-  ],
-};
-</script>
-```
-````
-
----
-
-# Components
-
-<div grid="~ cols-2 gap-4">
 <div>
 
-You can use Vue components directly inside your slides.
+### ⚠️ Same Branch Limit
 
-We have provided a few built-in components like `<Tweet/>` and `<Youtube/>` that you can use directly. And adding your custom components is also super easy.
+Can't checkout the **same branch** in multiple worktrees
 
-```html
-<Counter :count="10" />
+```bash
+# This will fail if main is already checked out
+git worktree add ../wt2 main
+# fatal: '../wt2' is already checked out at '.'
 ```
 
-<!-- ./components/Counter.vue -->
-<Counter :count="10" m="t-4" />
+### ⚠️ Manual Deletion
 
-Check out [the guides](https://sli.dev/builtin/components.html) for more.
+Don't `rm -rf` worktree directories manually
+<span v-click="2">
+  → Use `git worktree remove` instead
+</span>
+<span v-click="3">
+  → Or run `git worktree prune` after deletion
+</span>
 
 </div>
+
 <div>
 
-```html
-<Tweet id="1390115482657726468" />
-```
+### ⚠️ Independent Operations
 
-<Tweet id="1390115482657726468" scale="0.65" />
+Each worktree operates independently:
+- Rebase/merge conflicts resolved per worktree
+- Hooks run in each worktree separately
+- Stash is local to each worktree
 
-</div>
-</div>
+### ⚠️ Shared Refs
 
-<!--
-Presenter note with **bold**, *italic*, and ~~striked~~ text.
-
-Also, HTML elements are valid:
-<div class="flex w-full">
-  <span style="flex-grow: 1;">Left content</span>
-  <span>Right content</span>
-</div>
--->
-
----
-
-## class: px-20
-
-# Themes
-
-Slidev comes with powerful theming support. Themes can provide styles, layouts, components, or even configurations for tools. Switching between themes by just **one edit** in your frontmatter:
-
-<div grid="~ cols-2 gap-2" m="t-2">
-
-```yaml
----
-theme: default
----
-```
-
-```yaml
----
-theme: seriph
----
-```
-
-<img border="rounded" src="https://github.com/slidevjs/themes/blob/main/screenshots/theme-default/01.png?raw=true" alt="">
-
-<img border="rounded" src="https://github.com/slidevjs/themes/blob/main/screenshots/theme-seriph/01.png?raw=true" alt="">
+Commits are shared across all worktrees
+<span v-click="5">
+  → Pushing from one affects all
+</span>
 
 </div>
-
-Read more about [How to use a theme](https://sli.dev/guide/theme-addon#use-theme) and
-check out the [Awesome Themes Gallery](https://sli.dev/resources/theme-gallery).
-
----
-
-# Clicks Animations
-
-You can add `v-click` to elements to add a click animation.
-
-<div v-click>
-
-This shows up when you click the slide:
-
-```html
-<div v-click>This shows up when you click the slide.</div>
-```
-
-</div>
-
-<br>
-
-<v-click>
-
-The <span v-mark.red="3"><code>v-mark</code> directive</span>
-also allows you to add
-<span v-mark.circle.orange="4">inline marks</span>
-, powered by [Rough Notation](https://roughnotation.com/):
-
-```html
-<span v-mark.underline.orange>inline markers</span>
-```
-
-</v-click>
-
-<div mt-20 v-click>
-
-[Learn more](https://sli.dev/guide/animations#click-animation)
 
 </div>
 
 ---
 
-# Motions
+# Tips & Tricks
 
-Motion animations are powered by [@vueuse/motion](https://motion.vueuse.org/), triggered by `v-motion` directive.
+<div grid="~ cols-2 gap-4" m="t-4">
 
-```html
-<div
-  v-motion
-  :initial="{ x: -80 }"
-  :enter="{ x: 0 }"
-  :click-3="{ x: 80 }"
-  :leave="{ x: 1000 }"
->
-  Slidev
-</div>
+<div>
+
+### 🚀 Hot Fixes
+
+```bash
+# Critical bug comes in, you're mid-feature
+git worktree add ../hotfix -b hotfix/crash
+cd ../hotfix
+# fix, test, commit, push
+cd ../my-project
+# Continue feature work uninterrupted
 ```
 
-<div class="w-60 relative">
-  <div class="relative w-40 h-40">
-    <img
-      v-motion
-      :initial="{ x: 800, y: -100, scale: 1.5, rotate: -50 }"
-      :enter="final"
-      class="absolute inset-0"
-      src="https://sli.dev/logo-square.png"
-      alt=""
-    />
-    <img
-      v-motion
-      :initial="{ y: 500, x: -100, scale: 2 }"
-      :enter="final"
-      class="absolute inset-0"
-      src="https://sli.dev/logo-circle.png"
-      alt=""
-    />
-    <img
-      v-motion
-      :initial="{ x: 600, y: 400, scale: 2, rotate: 100 }"
-      :enter="final"
-      class="absolute inset-0"
-      src="https://sli.dev/logo-triangle.png"
-      alt=""
-    />
-  </div>
+### 📝 Code Reviews
 
-  <div
-    class="text-5xl absolute top-14 left-40 text-[#2B90B6] -z-1"
-    v-motion
-    :initial="{ x: -80, opacity: 0}"
-    :enter="{ x: 0, opacity: 1, transition: { delay: 2000, duration: 1000 } }">
-    Slidev
-  </div>
+```bash
+# Review and test PRs locally
+git worktree add ../review-pr-123 origin/pr-123
+```
+
+### 🏷️ Naming Convention
+
+Use descriptive paths:
+```bash
+../project-feature-auth
+../project-hotfix-login
+../project-test-api
+```
+
 </div>
 
-<!-- vue script setup scripts can be directly used in markdown, and will only affects current page -->
-<script setup lang="ts">
-const final = {
-  x: 0,
-  y: 0,
-  rotate: 0,
-  scale: 1,
-  transition: {
-    type: 'spring',
-    damping: 10,
-    stiffness: 20,
-    mass: 2
-  }
-}
-</script>
+<div>
 
-<div
-  v-motion
-  :initial="{ x:35, y: 30, opacity: 0}"
-  :enter="{ y: 0, opacity: 1, transition: { delay: 3500 } }">
+### 🧪 Parallel Testing
 
-[Learn more](https://sli.dev/guide/animations.html#motion)
+```bash
+# Run tests in background worktree
+cd ../my-project-test
+npm test &
+cd ../my-project
+# Continue coding...
+```
+
+### 🔄 CI/CD Workflows
+
+```bash
+# CI creates worktree for testing
+git worktree add ../build-temp HEAD~1
+cd ../build-temp && npm run build
+```
+
+### 🧹 Cleanup
+
+```bash
+# Clean all finished worktrees
+git worktree prune
+git worktree list  # Check what remains
+```
+
+</div>
 
 </div>
 
 ---
 
-# LaTeX
+# AI Coding Suitability
 
-LaTeX is supported out-of-box. Powered by [KaTeX](https://katex.org/).
+Git worktrees are ideal for AI-assisted development:
 
-<div h-3 />
+<div grid="~ cols-2 gap-6" m="t-4">
 
-Inline $\sqrt{3x-1}+(1+x)^2$
+<div>
 
-Block
+### 🤖 Isolated AI Sessions
 
-$$
-{1|3|all}
-\begin{aligned}
-\nabla \cdot \vec{E} &= \frac{\rho}{\varepsilon_0} \\
-\nabla \cdot \vec{B} &= 0 \\
-\nabla \times \vec{E} &= -\frac{\partial\vec{B}}{\partial t} \\
-\nabla \times \vec{B} &= \mu_0\vec{J} + \mu_0\varepsilon_0\frac{\partial\vec{E}}{\partial t}
-\end{aligned}
-$$
+Each AI conversation gets its own worktree
+- No cross-contamination of changes
+- Easy to compare AI suggestions side-by-side
+- Rollback is simple (just remove worktree)
 
-[Learn more](https://sli.dev/features/latex)
+### 🔀 Parallel AI Work
 
----
-
-# Diagrams
-
-You can create diagrams / graphs from textual descriptions, directly in your Markdown.
-
-<div class="grid grid-cols-4 gap-5 pt-4 -mb-6">
-
-```mermaid {scale: 0.5, alt: 'A simple sequence diagram'}
-sequenceDiagram
-    Alice->John: Hello John, how are you?
-    Note over Alice,John: A typical interaction
-```
-
-```mermaid {theme: 'neutral', scale: 0.8}
-graph TD
-B[Text] --> C{Decision}
-C -->|One| D[Result 1]
-C -->|Two| E[Result 2]
-```
-
-```mermaid
-mindmap
-  root((mindmap))
-    Origins
-      Long history
-      ::icon(fa fa-book)
-      Popularisation
-        British popular psychology author Tony Buzan
-    Research
-      On effectiveness<br/>and features
-      On Automatic creation
-        Uses
-            Creative techniques
-            Strategic planning
-            Argument mapping
-    Tools
-      Pen and paper
-      Mermaid
-```
-
-```plantuml {scale: 0.7}
-@startuml
-
-package "Some Group" {
-  HTTP - [First Component]
-  [Another Component]
-}
-
-node "Other Groups" {
-  FTP - [Second Component]
-  [First Component] --> FTP
-}
-
-cloud {
-  [Example 1]
-}
-
-database "MySql" {
-  folder "This is my folder" {
-    [Folder 3]
-  }
-  frame "Foo" {
-    [Frame 4]
-  }
-}
-
-[Another Component] --> [Example 1]
-[Example 1] --> [Folder 3]
-[Folder 3] --> [Frame 4]
-
-@enduml
+Multiple AI agents working simultaneously:
+```bash
+../project-ai-feature-a    # Claude on feature A
+../project-ai-refactor     # Claude on refactor
+../project-main            # Your work continues
 ```
 
 </div>
 
-Learn more: [Mermaid Diagrams](https://sli.dev/features/mermaid) and [PlantUML Diagrams](https://sli.dev/features/plantuml)
+<div>
+
+### 🧪 Safe Experimentation
+
+```bash
+# AI suggests big refactor
+git worktree add ../ai-refactor-sandbox -b ai-sandbox
+cd ../ai-refactor-sandbox
+# Let AI go wild here
+# If good: merge to main
+# If bad: just delete worktree
+```
+
+### 📊 A/B Testing
+
+Compare approaches:
+```bash
+../project-approach-v1
+../project-approach-v2
+```
+
+</div>
+
+</div>
 
 ---
 
-foo: bar
-dragPos:
-square: 691,32,167,\_,-16
+# Real-World Example
 
----
+## Scenario: Hot fix while developing feature
 
-# Draggable Elements
+<div v-click="1">
 
-Double-click on the draggable elements to edit their positions.
+### Before (Traditional Way)
 
-<br>
-
-###### Directive Usage
-
-```md
-<img v-drag="'square'" src="https://sli.dev/logo.png">
+```bash
+my-project/ $ git status        # Mid-work on feature
+my-project/ $ git stash
+my-project/ $ git checkout -b hotfix/crash
+my-project/ $ # Fix the bug...
+my-project/ $ git commit -am "fix: crash"
+my-project/ $ git push origin hotfix/crash
+my-project/ $ git checkout feature/new-ui
+my-project/ $ git stash pop    # Hope nothing conflicts!
 ```
 
-<br>
+</div>
 
-###### Component Usage
+<div v-click="2">
 
-```md
-<v-drag text-3xl>
-  <div class="i-carbon:arrow-up" />
-  Use the `v-drag` component to have a draggable container!
-</v-drag>
+### After (With Worktrees)
+
+```bash
+my-project/ $ git worktree add ../hotfix -b hotfix/crash
+hotfix/ $ # Fix, commit, push...
+hotfix/ $ cd ../my-project
+my-project/ $ # Never stopped working!
+hotfix/ $ git worktree remove ../hotfix  # Cleanup
 ```
 
-<v-drag pos="663,206,261,_,-15">
-  <div text-center text-3xl border border-main rounded>
-    Double-click me!
-  </div>
-</v-drag>
+</div>
 
-<img v-drag="'square'" src="https://sli.dev/logo.png">
+<div v-click="3" class="mt-4 p-4 bg-green-100 rounded">
 
-###### Draggable Arrow
+**Result:** Zero context switching, zero stashing, zero interruption
 
-```md
-<v-drag-arrow two-way />
-```
-
-<v-drag-arrow pos="67,452,253,46" two-way op70 />
-
----
-
-src: ./pages/imported-slides.md
-hide: false
-
----
-
----
-
-# Monaco Editor
-
-Slidev provides built-in Monaco Editor support.
-
-Add `{monaco}` to the code block to turn it into an editor:
-
-```ts {monaco}
-import { ref } from "vue";
-import { emptyArray } from "./external";
-
-const arr = ref(emptyArray(10));
-```
-
-Use `{monaco-run}` to create an editor that can execute the code directly in the slide:
-
-```ts {monaco-run}
-import { version } from "vue";
-import { emptyArray, sayHello } from "./external";
-
-sayHello();
-console.log(`vue ${version}`);
-console.log(
-  emptyArray<number>(10).reduce(
-    (fib) => [...fib, fib.at(-1)! + fib.at(-2)!],
-    [1, 1]
-  )
-);
-```
+</div>
 
 ---
 
@@ -653,8 +461,55 @@ class: text-center
 
 ---
 
-# Learn More
+# Summary
 
-[Documentation](https://sli.dev) · [GitHub](https://github.com/slidevjs/slidev) · [Showcases](https://sli.dev/resources/showcases)
+<div class="text-left" max-w="600">
+
+## ✅ Key Takeaways
+
+- Worktrees enable simultaneous branch work without stashing
+- Share `.git`, separate working directories
+- Perfect for hotfixes, code reviews, parallel testing
+- Great for AI coding isolation
+
+## ✅ When to Use
+
+- Hot fixes needed while coding feature
+- Testing multiple branches/PRs
+- Long-running tasks blocking development
+- AI wants to experiment safely
+
+## ❌ When NOT to Use
+
+- Simple branch switching (checkout is fine)
+- Very short-lived operations
+- Single developer, sequential work
+
+</div>
+
+<div class="mt-8 text-sm opacity-75">
+
+[Official Docs](https://git-scm.com/docs/git-worktree) ·
+[Atlassian Guide](https://www.atlassian.com/git/tutorials/git-worktree)
+
+</div>
+
+---
+
+layout: center
+class: text-center
+
+---
+
+# Questions?
+
+<div class="text-sm opacity-75 mt-8">
+
+Try it out:
+```bash
+git worktree add ../my-first-worktree -b experiment/test
+```
+
+</div>
 
 <PoweredBySlidev mt-10 />
