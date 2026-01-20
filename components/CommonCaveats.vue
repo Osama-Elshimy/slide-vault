@@ -36,11 +36,11 @@ git worktree add ../wt2 main
           ⚠️ <code>git fetch</code> Different Behavior
         </h3>
         <ul>
-          <li>
+          <li v-click="5">
             <code>git fetch</code> in a bare repo doesn't update
             <code>refs/remotes/origin</code>
           </li>
-          <span>
+          <span v-click="6">
             → Manually map the refspec so fetch behaves like a standard clone
             <code v-mark.red class="block"
               >git config remote.origin.fetch

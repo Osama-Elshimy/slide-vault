@@ -31,14 +31,5 @@
         </ul>
       </section>
     </div>
-
-    <div class="mt-8 text-sm opacity-75 text-center">
-      <a href="https://git-scm.com/docs/git-worktree">Official Docs</a>
-      ·
-      <a
-        href="https://www.youtube.com/watch?v=aolI_Rz0ZqY&pp=ygUZc28geW91IHRoaW5rIHlvdSBrbm93IGdpdA%3D%3D"
-        >So you think you know git?</a
-      >
-    </div>
   </div>
 </template>
